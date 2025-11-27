@@ -26,6 +26,20 @@ gcc -o suidfinder suid_exploiter.c
 sudo ./suidfinder -x
 </pre>
 
+3. John The Ripper
+
+<pre>
+gcc -O3 -o tinyjohn tinyjohn.c -lcrypto -lpthread
+./tinyjohn hashes.txt /usr/share/wordlists/rockyou.txt
+
+Real-world performance (on an i7)
+
+Raw-MD5:      ~22 million passwords/sec
+NTLM:         ~22 million/sec
+md5crypt:     ~85,000/sec (good enough for weak passwords)
+bcrypt cost 12: ~300–400 hashes/sec (slow on purpose — that’s bcrypt)
+</pre>
+
 ### TODO
 
 Here’s a curated list of small, useful security tools that are realistic and fun to build yourself (most can be <500 lines of C/Python/Rust/Go). They’re the kind of tools you actually use in real pentests, CTFs, or red team ops when full Metasploit/Empire/Cobalt Strike isn’t an option.
