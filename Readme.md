@@ -26,17 +26,18 @@ gcc -o suidfinder suid_exploiter.c
 sudo ./suidfinder -x
 </pre>
 
-3. Strings 2.0 (Not Tested)
+3. Strings 2.0
 
 <pre>
 gcc -o strings2 strings2.c -lm
-chmod +x strings2
+
+./strings2 strings2
 ./strings2 malware.exe
 ./strings2 firmware.bin -l 10 -e 6.0
 ./strings2 dump.dmp -x | less -R
 </pre>
 
-4. John The Ripper (Not Tested)
+4. John The Ripper [Not Tested] (Compiles only on Linux Systems)
 
 <pre>
 gcc -O3 -o tinyjohn tinyjohn.c -lcrypto -lpthread
@@ -48,6 +49,47 @@ Raw-MD5:      ~22 million passwords/sec
 NTLM:         ~22 million/sec
 md5crypt:     ~85,000/sec (good enough for weak passwords)
 bcrypt cost 12: ~300–400 hashes/sec (slow on purpose — that’s bcrypt)
+
+### Compile Error
+
+OpenSSL 3-compatible version
+
+</pre>
+
+5. Dirty Pipe - Local PrivEsc [Not Tested] (Compiles only on Linux Systems)
+
+<pre>
+gcc -o dirtypipe dirtypipe.c -Wall
+./dirtypipe
+
+### Compile Error
+
+***splice func not supported***
+
+dirtypipe.c:52:5: error: call to undeclared function 'splice'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    splice(pipefd[0], NULL, pipefd[1], NULL, PIPE_SIZE, 0);
+    ^
+dirtypipe.c:56:5: error: unknown type name 'loff_t'; did you mean 'off_t'?
+    loff_t offset = 0;  // we overwrite from beginning
+    ^~~~~~
+    off_t
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h:31:33: note: 'off_t' declared here
+typedef __darwin_off_t          off_t;
+                                ^
+dirtypipe.c:57:57: error: use of undeclared identifier 'SPLICE_F_MOVE'
+    ssize_t n = splice(fd, &offset, pipefd[1], NULL, 1, SPLICE_F_MOVE);
+                                                        ^
+dirtypipe.c:69:49: error: use of undeclared identifier 'SPLICE_F_MOVE'
+        splice(fd, &offset, pipefd[1], NULL, 1, SPLICE_F_MOVE);
+                                                ^
+dirtypipe.c:91:22: error: expected ')'
+    printf("    "    or wait a few seconds and run the binary again.\n");
+                     ^
+dirtypipe.c:91:11: note: to match this '('
+    printf("    "    or wait a few seconds and run the binary again.\n");
+          ^
+dirtypipe.c:91:71: warning: missing terminating '"' character [-Winvalid-pp-token]
+    printf("    "    or wait a few seconds and run the binary again.\n");
 </pre>
 
 ### TODO
