@@ -26,7 +26,17 @@ gcc -o suidfinder suid_exploiter.c
 sudo ./suidfinder -x
 </pre>
 
-3. John The Ripper
+3. Strings 2.0 (Not Tested)
+
+<pre>
+gcc -o strings2 strings2.c -lm
+chmod +x strings2
+./strings2 malware.exe
+./strings2 firmware.bin -l 10 -e 6.0
+./strings2 dump.dmp -x | less -R
+</pre>
+
+4. John The Ripper (Not Tested)
 
 <pre>
 gcc -O3 -o tinyjohn tinyjohn.c -lcrypto -lpthread
