@@ -1,3 +1,5 @@
+1. Netcat
+
 <pre>
 nc google.com 80
 
@@ -11,6 +13,17 @@ nc your-ip 1337
 
 # Simple port scan
 nc 10.1.1.1 1-1000
+</pre>
+
+2. Suid Finder
+
+<pre>
+# 1. Just scan (safe)
+gcc -o suidfinder suid_exploiter.c
+./suidfinder
+
+# 2. Auto-exploit mode (drops root shell instantly if vulnerable binary found)
+sudo ./suidfinder -x
 </pre>
 
 ### TODO
