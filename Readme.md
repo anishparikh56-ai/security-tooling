@@ -1,3 +1,7 @@
+All tooling will be in C even though the todo says otherwise. Luckily, the prompt also defaulted to produce code
+in C instead of C++. I wanted to deviate from C++ and get back to C anyway. C++ seems a bit cumbersome with the
+experience gained thus far.
+
 1. Netcat
 
 <pre>
