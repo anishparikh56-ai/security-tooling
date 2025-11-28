@@ -60,7 +60,7 @@ OpenSSL 3-compatible version
 
 </pre>
 
-5. Dirty Pipe - Local PrivEsc [Not Tested] (Compiles only on Linux Systems)
+5. Dirty Pipe [CVE-2022-0847] - Local PrivEsc [Not Tested] (Compiles only on Linux Systems)
 
 <pre>
 gcc -o dirtypipe dirtypipe.c -Wall
@@ -156,4 +156,4 @@ These start as 5-line scripts and evolve into real tools people use daily:
 - Auto-pwn script for EternalBlue (MS17-010)
 - Cloud metadata harvester (169.254.169.254 tester for every provider)
 
-> P.S. I can't believe I am still doing these projects even after all the intentional career sabotage.
+> P.S. I used Grok because of unrestricted tokens or whatever they call it. No rate limits and premium subs required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
