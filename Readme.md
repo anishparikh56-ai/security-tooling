@@ -128,6 +128,22 @@ Full /24 in ~2.8 seconds
 Banner grab works on HTTP/SSH/etc.
 </pre>
 
+10. HTTP Fuzz
+
+<pre>
+# Linux / macOS / WSL
+gcc -O3 -o httpfuzz httpfuzz.c -lpthread -lssl -lcrypto
+
+# Test it
+./httpfuzz http://10.11.12.13
+./httpfuzz https://dev.target.com/api/
+./httpfuzz http://192.168.10.50/share/
+
+[+] PUT → 201 ← DANGEROUS
+[+] DELETE → 204 ← DANGEROUS
+[+] PROPFIND → 207 ← DANGEROUS  → WebDAV ENABLED!
+[+] OPTIONS → 200
+[+] DEBUG → 200 ← DANGEROUS  → DEBUG MODE?
+</pre>
 
 > P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
-
