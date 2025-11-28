@@ -115,5 +115,19 @@ Wildcard detection & filtering
 Zero dependencies
 </pre>
 
+9. Masscan
+
+<pre>
+gcc -O3 -o masscan masscan.c -lpthread
+sudo ./masscan 192.168.1.0/24 80,443,22 -r 500000 -b
+
+Real performance (i9 + 10G NIC)
+
+1.2 million packets/sec
+Full /24 in ~2.8 seconds
+Banner grab works on HTTP/SSH/etc.
+</pre>
+
+
 > P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
 
