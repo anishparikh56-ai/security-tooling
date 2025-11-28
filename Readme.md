@@ -146,4 +146,25 @@ gcc -O3 -o httpfuzz httpfuzz.c -lpthread -lssl -lcrypto
 [+] DEBUG → 200 ← DANGEROUS  → DEBUG MODE?
 </pre>
 
+11. mDNS LLMNR
+
+<pre>
+# 1. Just probe (no root needed)
+gcc -O3 -o mdnsllmnr mdnsllmnr.c
+./mdnsllmnr
+
+# 2. Active spoofing (Responder-style)
+sudo ./mdnsllmnr -s
+# → Now run Responder or just capture NTLM hashes with another tool
+
+mDNS/LLMNR Prober & Spoofer (2025)
+[*] My IP: 192.168.10.77
+[*] PROBING MODE – sending queries...
+
+[+] RESPONSE from 192.168.10.45 → LLMNR/mDNS ENABLED!
+[+] RESPONSE from 192.168.10.88 → LLMNR/mDNS ENABLED!
+</pre>
+
+
 > P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
+
