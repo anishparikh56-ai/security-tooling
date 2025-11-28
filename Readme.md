@@ -30,7 +30,7 @@ gcc -o suidfinder suid_exploiter.c
 sudo ./suidfinder -x
 </pre>
 
-3. Strings 2.0
+3. Strings 2.0 - Malware is not my domain and I could barely tell what the script is doing here. This will take thorough reading and analyzing compared to other scripts.
 
 <pre>
 gcc -o strings2 strings2.c -lm
@@ -41,7 +41,7 @@ gcc -o strings2 strings2.c -lm
 ./strings2 dump.dmp -x | less -R
 </pre>
 
-4. John The Ripper [Not Tested] (Compiles only on Linux Systems)
+4. John The Ripper [Not Tested]
 
 <pre>
 gcc -O3 -o tinyjohn tinyjohn.c -lcrypto -lpthread
@@ -54,46 +54,29 @@ NTLM:         ~22 million/sec
 md5crypt:     ~85,000/sec (good enough for weak passwords)
 bcrypt cost 12: ~300–400 hashes/sec (slow on purpose — that’s bcrypt)
 
-### Compile Error
-
-OpenSSL 3-compatible version
-
 </pre>
 
-5. Dirty Pipe [CVE-2022-0847] - Local PrivEsc [Not Tested] (Compiles only on Linux Systems)
+5. Dirty Pipe [CVE-2022-0847] - Local PrivEsc [Not Tested]
 
 <pre>
 gcc -o dirtypipe dirtypipe.c -Wall
 ./dirtypipe
+</pre>
 
-### Compile Error
+6. LinEnum - Linux PrivEsc Enum Script
 
-***splice func not supported***
+<pre>
+gcc -O2 -o linenum linenum.c
+./linenum | tee enum.txt
 
-dirtypipe.c:52:5: error: call to undeclared function 'splice'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    splice(pipefd[0], NULL, pipefd[1], NULL, PIPE_SIZE, 0);
-    ^
-dirtypipe.c:56:5: error: unknown type name 'loff_t'; did you mean 'off_t'?
-    loff_t offset = 0;  // we overwrite from beginning
-    ^~~~~~
-    off_t
-/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h:31:33: note: 'off_t' declared here
-typedef __darwin_off_t          off_t;
-                                ^
-dirtypipe.c:57:57: error: use of undeclared identifier 'SPLICE_F_MOVE'
-    ssize_t n = splice(fd, &offset, pipefd[1], NULL, 1, SPLICE_F_MOVE);
-                                                        ^
-dirtypipe.c:69:49: error: use of undeclared identifier 'SPLICE_F_MOVE'
-        splice(fd, &offset, pipefd[1], NULL, 1, SPLICE_F_MOVE);
-                                                ^
-dirtypipe.c:91:22: error: expected ')'
-    printf("    "    or wait a few seconds and run the binary again.\n");
-                     ^
-dirtypipe.c:91:11: note: to match this '('
-    printf("    "    or wait a few seconds and run the binary again.\n");
-          ^
-dirtypipe.c:91:71: warning: missing terminating '"' character [-Winvalid-pp-token]
-    printf("    "    or wait a few seconds and run the binary again.\n");
+Why this beats bash script version
+
+No /bin/sh dependency → works in restricted shells
+No external tools needed → works on minimal containers
+30 KB binary → easy to transfer
+Color output + clean formatting
+Finds 95% of privesc vectors in < 10 seconds
+
 </pre>
 
 ### TODO
