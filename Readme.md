@@ -199,5 +199,20 @@ AMSI status
 …just say “winpeas-c pro” and I’ll drop the 600-line ultimate Windows pwn tool.
 </pre>
 
+13. Zip Cracker
+
+<pre>
+# Linux / macOS / WSL
+gcc -O3 -o zipcrack zipcrack.c -lpthread
+
+# Windows (cross-compile)
+x86_64-w64-mingw32-gcc -O3 -o zipcrack.exe zipcrack.c -lpthread
+
+# Crack a file
+./zipcrack secret.zip
+./zipcrack backup.zip /usr/share/wordlists/rockyou.txt
+</pre>
+
+
 > P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
 
