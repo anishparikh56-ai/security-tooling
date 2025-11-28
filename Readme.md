@@ -255,6 +255,19 @@ x86_64-w64-mingw32-gcc -O3 -o lfi-rfi.exe lfi-rfi.c -lssl -lcrypto -lpthread
     → RCE via wrapper (GOD MODE)
 </pre>
 
+16. Dirbrute
+
+<pre>
+# Linux / macOS
+gcc -O3 -o dirbrute dirbrute.c -lssl -lcrypto -lpthread
+
+# Windows
+x86_64-w64-mingw32-gcc -O3 -o dirbrute.exe dirbrute.c -lssl -lcrypto -lpthread -lws2_32
+
+# Go fast
+./dirbrute https://target.com
+./dirbrute http://192.168.1.100 -w /opt/SecLists/Discovery/Web-Content/raft-large-directories.txt
+</pre>
 
 > P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
 
