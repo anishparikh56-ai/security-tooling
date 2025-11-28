@@ -1,6 +1,4 @@
-All tooling will be in C even though the todo says otherwise. Luckily, the prompt also defaulted to produce code
-in C instead of C++. I wanted to deviate from C++ and get back to C anyway. C++ seems a bit cumbersome with the
-experience gained thus far.
+### Security Tooling
 
 1. Netcat
 
@@ -140,3 +138,5 @@ These start as 5-line scripts and evolve into real tools people use daily:
 - Cloud metadata harvester (169.254.169.254 tester for every provider)
 
 > P.S. I used Grok because of unrestricted tokens or whatever they call it. No rate limits and premium subs required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
+
+> Still working on such projects in spite of all the hateful, spiteful and toxic elements.
