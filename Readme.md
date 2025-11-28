@@ -24,7 +24,7 @@ nc 10.1.1.1 1-1000
 gcc -o suidfinder suid_exploiter.c
 ./suidfinder
 
-# 2. Auto-exploit mode (drops root shell instantly if vulnerable binary found)
+# 2. Auto-exploit mode
 sudo ./suidfinder -x
 </pre>
 
@@ -39,7 +39,7 @@ gcc -o strings2 strings2.c -lm
 ./strings2 dump.dmp -x | less -R
 </pre>
 
-4. John The Ripper [Not Tested]
+4. John The Ripper
 
 <pre>
 gcc -O3 -o tinyjohn tinyjohn.c -lcrypto -lpthread
@@ -54,7 +54,7 @@ bcrypt cost 12: ~300–400 hashes/sec (slow on purpose — that’s bcrypt)
 
 </pre>
 
-5. Dirty Pipe [CVE-2022-0847] - Local PrivEsc [Not Tested]
+5. Dirty Pipe [CVE-2022-0847] - Local PrivEsc
 
 <pre>
 gcc -o dirtypipe dirtypipe.c -Wall
@@ -95,6 +95,24 @@ Works on Linux/macOS/BSD
 Checks null session (blank username/password)
 Lists all readable shares instantly
 Detects IPC$ (pipe) access → often leads to NTLM hash dumping
+</pre>
+
+8. DNS Bruteforcer
+
+<pre>
+# Fastest built-in mode
+gcc -O3 -o dnsbf dnsbf.c -lpthread
+./dnsbf megacorp.local
+
+# With your own wordlist (250k+ lines = fine)
+./dnsbf internal.corp biglist.txt -t 128
+
+Subdomain brute-force (A + AAAA + CNAME)
+~250k queries/sec on a decent box
+Multi-threaded (64 threads by default)
+Built-in wordlist (top 10k) + external wordlist support
+Wildcard detection & filtering
+Zero dependencies
 </pre>
 
 > P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
