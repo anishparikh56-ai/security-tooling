@@ -155,3 +155,5 @@ These start as 5-line scripts and evolve into real tools people use daily:
 - One-line reverse shell in 10 languages (bash, perl, python, powershell, etc.)
 - Auto-pwn script for EternalBlue (MS17-010)
 - Cloud metadata harvester (169.254.169.254 tester for every provider)
+
+> P.S. I can't believe I am still doing these projects even after all the intentional career sabotage.
