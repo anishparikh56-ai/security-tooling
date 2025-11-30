@@ -1,7 +1,7 @@
-// tinyjohn.c - John the Ripper "Tiny" Edition (2025)
-// Compile: gcc -O3 -o tinyjohn tinyjohn.c -lm -lpthread
-// Usage:   ./tinyjohn hashes.txt wordlist.txt
-//          ./tinyjohn -format=bcrypt hashes.txt rockyou.txt
+// john.c - John the Ripper
+// Compile: gcc -O3 -o john john.c -lm -lpthread
+// Usage:   ./john hashes.txt wordlist.txt
+//          ./john -format=bcrypt hashes.txt rockyou.txt
 
 #include <stdio.h>
 #include <stdlib.h>

