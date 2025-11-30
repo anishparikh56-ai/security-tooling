@@ -28,7 +28,7 @@ gcc -o suidfinder suid_exploiter.c
 sudo ./suidfinder -x
 </pre>
 
-3. Strings 2.0 - Malware is not my domain and I could barely tell what the script is doing here. This will take thorough reading and analyzing compared to other scripts. I know what the string utility is used for, just not it's inner workings.
+3. Strings 2.0 (String dem up) - Malware is not my domain and I could barely tell what the script is doing here. This will take thorough reading and analyzing compared to other scripts. I know what the string utility is used for, just not it's inner workings.
 
 <pre>
 gcc -o strings2 strings2.c -lm
@@ -269,5 +269,9 @@ x86_64-w64-mingw32-gcc -O3 -o dirbrute.exe dirbrute.c -lssl -lcrypto -lpthread -
 ./dirbrute http://192.168.1.100 -w /opt/SecLists/Discovery/Web-Content/raft-large-directories.txt
 </pre>
 
-> P.S. I used Grok because of unrestricted tokens, no rate limits and premium subscription required. Grok was always so smart. Highly underestimated. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for such awesome slop.
+> P.S. I just can't sit idle and do nothing. I need to have something going on to keep myself busy. For this project, I used Grok because of unrestricted tokens, no rate limits and premium subscription required. This project has been birthed during Thanksgiving weekend. I hope everyone is thankful for the contributions made in this project :)
 
+### TODO
+
+- Compile and test all binaries on a Linux system. I have Asahi Linux partitioned hard drive with a dual-boot setup on macOS. I was thinking of reinstalling Kali, but I am not an ethical hacker, and the focus of this project is on security tooling, improvements, and further optimizations.
+- For tunneling and pivoting tools, I would just just test it locally on different ports on a single machine.
